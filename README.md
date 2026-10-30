@@ -1,1 +1,1 @@
-# coding-project-template
+# Cars Dealership - Full Stack Capstone Project
