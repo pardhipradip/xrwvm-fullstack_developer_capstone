@@ -1,0 +1,2 @@
+curl http://localhost:3030/fetchReviews/dealer/2
+[{"_id":"6ae4d76c6dbc1d52db9eae3d","id":19,"name":"Dalenna Foxen","dealership":2,"review":"Profound discrete definition","purchase":false,"purchase_date":"11/14/2020","car_make":"Mercedes-Benz","car_model":"S-Class","car_year":2003,"__v":0},{"_id":"6ae4d76c6dbc1d52db9eae58","id":46,"name":"Reece Fronczak","dealership":2,"review":"Polarised client-server methodology","purchase":true,"purchase_date":"07/04/2020","car_make":"BMW","car_model":"760","car_year":2005,"__v":0}]

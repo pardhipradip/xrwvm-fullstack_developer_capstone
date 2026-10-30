@@ -5,10 +5,11 @@
 # from django.shortcuts import get_object_or_404, render, redirect
 # from django.contrib import messages
 # from datetime import datetime
-
+from .models import CarMake, CarModel
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
+from .restapis import get_request
 import logging
 import json
 from django.views.decorators.csrf import csrf_exempt
@@ -81,12 +82,21 @@ def registration(request):
     data = {"userName": username, "error": "Already Registered"}
     return JsonResponse(data)
 
-
+def get_cars(request):
+    car_models = CarModel.objects.select_related("car_make").all()
+    cars = [
+        {"CarModel": car_model.name, "CarMake": car_model.car_make.name}
+        for car_model in car_models
+    ]
+    return JsonResponse({"CarModels": cars})
 # # Update the `get_dealerships` view to render the index page with
 # a list of dealerships
 # def get_dealerships(request):
 # ...
-
+def get_dealerships(request, state="All"):
+    endpoint = "/fetchDealers" if state == "All" else f"/fetchDealers/{state}"
+    dealerships = get_request(endpoint)
+    return JsonResponse({"status": 200, "dealers": dealerships})
 # Create a `get_dealer_reviews` view to render the reviews of a dealer
 # def get_dealer_reviews(request,dealer_id):
 # ...
