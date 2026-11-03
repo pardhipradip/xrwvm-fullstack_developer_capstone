@@ -1,0 +1,50 @@
+name: Capstone CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+        working-directory: server
+
+      - name: Check Django project
+        run: python manage.py check
+        working-directory: server
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install database API dependencies
+        run: npm ci
+        working-directory: server/database
+
+      - name: Check database API syntax
+        run: node --check app.js
+        working-directory: server/database
+
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: server/frontend
+
+      - name: Build frontend
+        run: npm run build
+        working-directory: server/frontend
+        env:
+          CI: "false"
